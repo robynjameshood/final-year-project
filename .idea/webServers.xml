@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f7ecdb2f-2cb0-4fa8-b8fa-69babaac07ba" name="smart-bets" url="http://ftp.smart-bets.co.uk">
+        <fileTransfer host="ftp.smart-bets.co.uk" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

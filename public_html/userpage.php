@@ -13,8 +13,14 @@ if (!isset($_SESSION["username"])) {
 </head>
 <body>
 
-<div class="leagues-menu" id="leagues-menu">
-    <a href="all-games" div class="league-title" id="league-title">Matches</div></a>
+<div class="side-menu" id="side-menu">
+    <div class="menu-flex-container">
+        <div><a href="corner-alerts" id="league-title">Corner Alerts</a></div>
+        <div><a href="goal-alerts" id="league-title">Goal Alerts</a></div>
+        <div><a href="player-cards" id="league-title">Player Cards</a></div>
+        <div><a href="btts" id="league-title">Both Teams To Score</a></div>
+        <div><a href="over2point5" id="league-title">Over 2.5 Goals</a></div>
+    </div>
 </div>
 </div>
 
