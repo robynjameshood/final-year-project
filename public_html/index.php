@@ -11,8 +11,6 @@
 <div class="background" id="background-select">
     <div class = "register-form-container" id = "register-form-container">
     <form class = registrationForm action="client-processing.php?option=1" method="post">
-        <input type = "text" id = "firstNameID" placeholder="Name" name = "first_name" required><br>
-        <input type = "text" id = "secondNameID" placeholder="Surname" name = "second_name" required><br>
         <input type = "text" id = "username" placeholder="Username" name = "username" required><br>
         <input type = "text" id = "emailAddressID" placeholder="Email" name = "email" required>
         <input type = "password" id = "passwordField" placeholder="Password" name = "password" required><br>
