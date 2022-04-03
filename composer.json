@@ -1,0 +1,9 @@
+{
+    "name": "r_bla/smart-stats",
+    "require": {
+        "guzzlehttp/guzzle": "^7.4",
+      "ext-json": "*",
+      "ext-http": "*",
+      "ext-curl": "*"
+    }
+}
