@@ -1,4 +1,7 @@
 <?php
+
+$value = $_GET['id'];
+
 require_once "vendor/autoload.php";
 //include "database/select.php";
 
@@ -25,6 +28,7 @@ require_once "vendor/autoload.php";
 
     <div class="main">
         <div class="main-title">Smart-Stats</div>
+        <div class="test"><?php echo $value ?></div>
     </div>
 </div>
 
