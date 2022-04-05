@@ -30,9 +30,9 @@ include "database/api-call.php"
     <div class="userpage-main">
         <div class="userpage-main-title">Premier League Statistics</div>
         <?php
-        $response = apiSpecificLeagueGames($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
-        ?>
+        $response = inplay($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
 
+        if (!empty($response['response'])) { ?>
         <div class="table-wrapper">
             <table class="live-games-table">
                 <tr>
@@ -46,13 +46,27 @@ include "database/api-call.php"
                 foreach ($response['response'] as $fixture) { ?>
                 <tr>
                     <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
-                    <td><?php print_r($fixture['goals']['home']); ?><?php echo ":"; print_r($fixture['goals']['away']) ?> </td>
+                    <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
+                        print_r($fixture['goals']['away']) ?> </td>
                     <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
-                    <td><button class="lineups">View</button></td>
-                    <td><button class="statistics">View</button></td> <?php } ?>
-                </tr>
-            </table>
-        </div>
+                    <td>
+                        <button class="lineups">View</button>
+                    </td>
+                    <td>
+                        <button class="statistics">View</button>
+                    </td> <?php }}
+                    else {  ?>
+                        <div class="table-wrapper">
+                            <table class="live-games-table">
+                                <tr>
+                                    <td>Home</td>
+                                    <td>Score</td>
+                                    <td>Away</td>
+                                    <td>Lineup</td>
+                                    <td>Statistics</td>
+                                </tr>
+                            </table>
+                        </div> <?php } ?>
 
 
         <div class="widget" id="scoreaxis-widget-c3a7d"

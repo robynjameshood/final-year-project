@@ -1,19 +1,14 @@
 <?php
 session_start();
-//$_SESSION['fixtureID'] = array();
-$id = ($_POST);
-$fixtureID = "";
 
-foreach ($id as $key => $value) {
-    $fixtureID = $key;
-}
+$id = $_GET['id'];
 
-echo $fixtureID;
+//echo $id;
 
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-    CURLOPT_URL => "https://api-football-v1.p.rapidapi.com/v3/fixtures/?live=all",
+    CURLOPT_URL => "https://api-football-v1.p.rapidapi.com/v3/fixtures/lineups?fixture=" . $id,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_ENCODING => "",
@@ -23,7 +18,7 @@ curl_setopt_array($curl, [
     CURLOPT_CUSTOMREQUEST => "GET",
     CURLOPT_HTTPHEADER => [
         "X-RapidAPI-Host: api-football-v1.p.rapidapi.com",
-        "X-RapidAPI-Key: 332c0a65dbmshaa2eb7ba72092d5p1dce5bjsna84d3145dcf2"
+        "X-RapidAPI-Key: 876d579235msh398dd1932516a96p1ffad5jsnd2510f2f083f"
     ],
 ]);
 
@@ -34,4 +29,17 @@ curl_close($curl);
 
 if ($err) {
     echo "cURL Error #:" . $err;
+}
+
+if (empty($response['response'])) {
+    echo "Lineup Not Available for this fixture";
+} else {
+    echo $response['response'][0]['team']['name'];
+    foreach ($response['response'][0]['startXI'] as $lineup) {
+        echo $lineup['player']['name'] . '<br>';
+    }
+    echo $response['response'][1]['team']['name'];
+    foreach ($response['response'][1]['startXI'] as $lineup) {
+        echo $lineup['player']['name'] . '<br>';
+    }
 }

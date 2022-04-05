@@ -30,7 +30,7 @@ include "database/api-call.php"
     <div class="userpage-main">
         <div class="userpage-main-title">Premier League Statistics</div>
         <?php
-        $response = apiSpecificLeagueGames($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
+        $response = inplay($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
         ?>
 
         <div class="table-wrapper">

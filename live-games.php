@@ -10,27 +10,6 @@ include "database/api-call.php";
 ?>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" lang="">
 <head>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script>
-        $(function () {
-
-            $('#live-games-lineups').on('submit', function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: 'post',
-                    url: 'lineups.php',
-                    data: $('#live-games-lineups').serialize(),
-                    success: function () {
-                        alert('form was submitted');
-                    }
-                });
-
-            });
-
-        });
-    </script>
     <meta http-equiv="refresh" content="">
     <link rel="stylesheet" href="styles.css"
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,40 +33,39 @@ include "database/api-call.php";
     <div class="userpage-main">
         <div class="userpage-main-title">Live Games:</div>
         <?php
-        $response = apiAllGames($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
+        $response = inplay($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
         ?>
 
 
-            <div class="table-wrapper">
-                <table class="live-games-table">
-                    <tr>
-                        <td>Home</td>
-                        <td>Score</td>
-                        <td>Away</td>
-                        <td>Lineup</td>
-                        <td>Statistics</td>
-                    </tr>
-                    <?php
-                    foreach ($response['response'] as $fixture) { ?>
-                    <tr>
-                        <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
-                        <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
-                            print_r($fixture['goals']['away']) ?> </td>
-                        <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
-                        <td>
-                            <form id="live-games-lineups" method="post" action="lineups.php">
-                            <button class="lineups" name="<?php echo $fixture['fixture']['id'];?>">View</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form id="live-games-statistics" method="post" action="statistics.php">
-                            <button class="statistics" name="<?php echo $fixture['fixture']['id']; ?>">View</button>
-                            </form>
-                        </td>
-                        <?php } ?>
-                    </tr>
-                </table>
-            </div>
+        <div class="table-wrapper">
+            <table class="live-games-table">
+                <tr>
+                    <td>Time</td>
+                    <td>Home</td>
+                    <td>Score</td>
+                    <td>Away</td>
+                    <td>Lineup</td>
+                    <td>Statistics</td>
+                </tr>
+                <?php
+                foreach ($response['response'] as $fixture) { ?>
+                <tr>
+                    <td><?php print_r($fixture['fixture']['status']['elapsed']."'")?></td>
+                    <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
+                    <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
+                        print_r($fixture['goals']['away']) ?> </td>
+                    <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
+                    <?php $id = $fixture['fixture']['id']; ?>
+                    <td>
+                        <button class="lineups" name="<?php echo $id; ?>">View</button>
+                    </td>
+                    <td>
+                        <button class="statistics" name="<?php echo $id ?>">View</button>
+                    </td>
+                    <?php } ?>
+                </tr>
+            </table>
+        </div>
 
 
         <div class="widget" id="scoreaxis-widget-c3a7d"
@@ -105,6 +83,7 @@ include "database/api-call.php";
                 });
             </script>
             <script src="java.js"></script>
+
         </div>
     </div>
 </div>
