@@ -1,4 +1,5 @@
 <?php
+include "classes/fixture.php";
 session_start();
 
 $id = $_GET['id'];
