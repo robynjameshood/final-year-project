@@ -11,7 +11,7 @@ class insert
 {
 
 
-    public function __construct() // uses dependency injection, constructor takes an object of type fixture to insert into the database
+    public function __construct() //
     {
 
     }

@@ -17,7 +17,7 @@ class select
         $fixtureID = 816802;
 
         $query = $connection->prepare("SELECT player.name, player.position, player.shirtNumber, team.teamName
-FROM player
+                                        FROM player
                                         INNER JOIN team ON player.teamID = team.teamID
                                         INNER JOIN fixture ON team.fixtureID = fixture.fixtureID
                                         where fixture.fixtureID = ?;");
@@ -27,9 +27,7 @@ FROM player
         $result = $query->get_result();
 
         return $result->fetch_all();
-
     }
-
 }
 
 

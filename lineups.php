@@ -17,10 +17,6 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-
-
-
-
 generateFixture($id);
 generateTeamData($id);
 generatePlayerData($id);
