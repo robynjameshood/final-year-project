@@ -4,6 +4,7 @@
         "guzzlehttp/guzzle": "^7.4",
       "ext-json": "*",
       "ext-http": "*",
-      "ext-curl": "*"
+      "ext-curl": "*",
+      "ext-mysqli": "*"
     }
 }

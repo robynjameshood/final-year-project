@@ -1,12 +1,37 @@
 <?php
-session_start();
+
 include "connection.php";
 
-// sql query
-$query = $connection->prepare("select teamName, tablePosition from teams ");
+class select
+{
 
-$query->execute();
+    public function __construct()
+    {
 
-//returns the actual result / returns the rows of data and places them inside of result variable.
-$result = $query->get_result(); // returns the actual result/data
+    }
+
+    public function getLineup($fixtureID)
+    {
+        global $connection;
+
+        $fixtureID = 816802;
+
+        $query = $connection->prepare("SELECT player.name, player.position, player.shirtNumber, team.teamName
+FROM player
+                                        INNER JOIN team ON player.teamID = team.teamID
+                                        INNER JOIN fixture ON team.fixtureID = fixture.fixtureID
+                                        where fixture.fixtureID = ?;");
+        $query->bind_param("i", $fixtureID);
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->fetch_all();
+
+    }
+
+}
+
+
+
 

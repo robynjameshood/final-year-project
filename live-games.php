@@ -50,7 +50,7 @@ include "database/api-call.php";
                 <?php
                 foreach ($response['response'] as $fixture) { ?>
                 <tr>
-                    <td><?php print_r($fixture['fixture']['status']['elapsed']."'")?></td>
+                    <td><?php print_r($fixture['fixture']['status']['elapsed'] . "'") ?></td>
                     <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
                     <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
                         print_r($fixture['goals']['away']) ?> </td>
@@ -66,7 +66,9 @@ include "database/api-call.php";
                 </tr>
             </table>
         </div>
+        <script src="java.js"></script>
     </div>
+</div>
 </div>
 
 </body>

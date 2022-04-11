@@ -54,8 +54,9 @@ include "database/api-call.php"
                     </td>
                     <td>
                         <button class="statistics">View</button>
-                    </td> <?php }}
-                    else {  ?>
+                    </td> <?php }
+                    }
+                    else { ?>
                         <div class="table-wrapper">
                             <table class="live-games-table">
                                 <tr>
@@ -69,21 +70,7 @@ include "database/api-call.php"
                         </div> <?php } ?>
 
 
-        <div class="widget" id="scoreaxis-widget-c3a7d"
-             style="border-width:1px;border-color:rgba(0, 0, 0, 0.15);border-style:solid;border-radius:8px;padding:0px;background:rgb(255, 255, 255);width:300px;height: 100%;">
-            <iframe id="Iframe"
-                    src="https://www.scoreaxis.com/widget/league-top-players/8?autoHeight=1&amp;playersNumber=15&amp;inst=c3a7d"
-                    style="width:100%;border:none;transition:all 300ms ease"></iframe>
-            <script>window.addEventListener("DOMContentLoaded", event => {
-                    window.addEventListener("message", event => {
-                        if (event.data.appHeight && "c3a7d" == event.data.inst) {
-                            let container = document.querySelector("#scoreaxis-widget-c3a7d iframe");
-                            container && (container.style.height = parseInt(event.data.appHeight) + "px")
-                        }
-                    }, !1)
-                });</script>
         </div>
     </div>
-</div>
 
 </body>
