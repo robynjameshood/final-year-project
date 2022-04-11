@@ -2,7 +2,7 @@
 $_SESSION['league'] = "Ligue 1";
 $_SESSION['leagueID'] = 61;
 require_once "vendor/autoload.php";
-include "database/api-call.php";
+include "database/api.php";
 
 
 ?>

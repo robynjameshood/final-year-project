@@ -3,7 +3,7 @@ session_start();
 $_SESSION['league'] = "Premiership";
 $_SESSION['leagueID'] = 39;
 require_once "vendor/autoload.php";
-include "database/api-call.php"
+include "database/api.php"
 
 
 ?>

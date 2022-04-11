@@ -4,7 +4,7 @@ session_start();
 $_SESSION['leagueID'] = "all";
 
 require_once "vendor/autoload.php";
-include "database/api-call.php";
+include "database/api.php";
 
 
 ?>
