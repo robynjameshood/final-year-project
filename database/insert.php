@@ -1,9 +1,6 @@
 <?php
 
-use smartstats\fixture;
 use smartstats\player;
-use smartstats\team;
-use smartstats\user;
 
 include "connection.php";
 
@@ -16,28 +13,25 @@ class insert
 
     }
 
-    function insertFixture(fixture $fixture)
+    public function insertFixture($fixtureID)
     {
         global $connection;
-        $id = $fixture->getFixtureID();
 
         $query = $connection->prepare("insert ignore into fixture (fixtureID) value (?)");
-        $query->bind_param("i", $id);
+        $query->bind_param("i", $fixtureID);
         $query->execute();
     }
 
-    function insertTeamData(team $team, $fixtureID)
+    function insertTeamData($teamID, $teamName, $fixtureID)
     {
         global $connection;
-        $teamID = $team->getTeamID();
-        $teamName = $team->getTeamName();
 
         $query = $connection->prepare("insert ignore into team (teamID, teamName, fixtureID) VALUE (?, ?, ?)");
         $query->bind_param("isi", $teamID, $teamName, $fixtureID);
         $query->execute();
     }
 
-    function insertPlayer(player $player, $teamID) {
+    public function insertPlayer(player $player, $teamID) {
         global $connection;
         $playerID = $player->getPlayerID();
         $playerName = $player->getPlayerName();

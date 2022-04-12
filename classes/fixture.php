@@ -19,26 +19,6 @@ class fixture
         return $this->fixtureID;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getScore()
-    {
-        return $this->score;
-    }
-
-    /**
-     * @return mixed
-     */
-
 
     /**
      * @param mixed $fixtureID
@@ -48,21 +28,7 @@ class fixture
         $this->fixtureID = $fixtureID;
     }
 
-    /**
-     * @param mixed $time
-     */
-    public function setTime($time)
-    {
-        $this->time = $time;
-    }
 
-    /**
-     * @param mixed $score
-     */
-    public function setScore($score)
-    {
-        $this->score = $score;
-    }
 
 
 }

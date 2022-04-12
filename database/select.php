@@ -24,9 +24,13 @@ class select
         $query->bind_param("i", $fixtureID);
         $query->execute();
 
-        $result = $query->get_result();
+        $result = $query->get_result(); // gets the result
 
-        return $result->fetch_all();
+        $data = $result->fetch_all(MYSQLI_ASSOC); // fetches all rows using mode assoc
+
+        print_r($data);
+
+        //return $result->fetch_all();
     }
 }
 
