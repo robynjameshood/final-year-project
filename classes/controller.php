@@ -18,8 +18,8 @@ class controller
         $this->insertData = $insert;
     }
 
-    public function buildPlayer(player $player, $teamID) {
-        $this->insertData->insertPlayer($player, $teamID);
+    public function buildPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $teamID) {
+        $this->insertData->insertPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $teamID);
     }
 
     public function buildFixture($fixtureID) {

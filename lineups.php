@@ -1,6 +1,7 @@
 <?php
 
 use smartstats\player;
+
 //use smartstats\team;
 use smartstats\controller;
 
@@ -17,12 +18,18 @@ if (isset($_GET['id'])) {
 }
 
 generateFixture($id);
-//generateTeamData($id);
-//generatePlayerData($id);
 
-function checkDatabaseForFixture() {
+// this function checks to see if the fixture data already exists in the database before calling the api; if the data is within the database, uses this data in the page
+// instead of wasting an api call on the same data.
+
+function checkDatabaseForFixture()
+{
 
 }
+
+// generate feature is designed to check to see if the lineup exists in the api, if the lineup key is empty, the controller returns false and informs the user.
+// if a lineup is found, the controller will then proceed to build the fixture data table, the team data table which relates to the fixture table
+// it will then build the player data table which relates to the team table, which relates to the fixture table.
 
 function generateFixture($id)
 {
@@ -46,54 +53,16 @@ function generateFixture($id)
             $teamName = $team['team']['name'];
 
             $controller->buildTeamData($teamID, $teamName, $id);
-        }
-    }
-}
 
-function generateTeamData($id)
-{
-    $controller = new controller();
+            echo "Inserting Player Data: ";
 
-    $response = $controller->getLineup($id);
+            foreach ($team['startXI'] as $player) {
+                $playerID = $player['player']['id'];
+                $playerName = $player['player']['name'];
+                $playerPosition = $player['player']['pos'];
+                $playerNumber = $player['player']['number'];
 
-
-    if (empty($response['response'])) {
-    } else {
-        echo "Line up found - Inserting into database: '<br>'";
-
-    }
-}
-
-function generatePlayerData($id)
-{
-    $select = new select();
-
-    $teamData = $select->getLineup($id);
-
-    if ($teamData) {
-        echo "\r\nTeam data found - pulling from database";
-        //print_r($teamData);
-    } else {
-        echo "\r\ncalling api";
-        $response = inplay($id);
-        if (empty($response['response'])) {
-            echo "Lineup Not Available for this fixture";
-        } else {
-            echo "inserting player data";
-            foreach ($response['response'] as $team) {
-                $teamID = $team['team']['id'];
-
-                foreach ($team['startXI'] as $players) {
-                    $playerID = $players['player']['id'];
-                    $playerName = $players['player']['name'];
-                    $playerPosition = $players['player']['pos'];
-                    $playerNumber = $players['player']['number'];
-                    $player = new player($playerID, $playerName, $playerPosition, $playerNumber);
-
-                    $insert = new insert();
-
-                    $insert->insertPlayer($player, $teamID);
-                }
+                $controller->buildPlayer($playerID, $playerName, $playerPosition, $playerNumber, $teamID);
             }
         }
     }

@@ -31,16 +31,11 @@ class insert
         $query->execute();
     }
 
-    public function insertPlayer(player $player, $teamID) {
+    public function insertPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $teamID) {
         global $connection;
-        $playerID = $player->getPlayerID();
-        $playerName = $player->getPlayerName();
-        $playerPosition = $player->getPlayerPosition();
-        $playerNumber = $player->getShirtNumber();
-        $team_ID = $teamID;
 
         $query = $connection->prepare("insert ignore into player (playerID, name, position, shirtNumber, teamID) value (?, ?, ?, ?, ?)");
-        $query->bind_param("issii", $playerID, $playerName, $playerPosition, $playerNumber, $team_ID);
+        $query->bind_param("issii", $playerIO, $playerName, $playerPosition, $shirtNumber, $teamID);
         $query->execute();
     }
 }
