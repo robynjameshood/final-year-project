@@ -14,23 +14,22 @@ class select
     {
         global $connection;
 
-        $fixtureID = 816802;
-
         $query = $connection->prepare("SELECT player.name, player.position, player.shirtNumber, team.teamName
                                         FROM player
                                         INNER JOIN team ON player.teamID = team.teamID
                                         INNER JOIN fixture ON team.fixtureID = fixture.fixtureID
-                                        where fixture.fixtureID = ?;");
+                                        where fixture.fixtureID = ?
+                                        ORDER BY team.teamName");
         $query->bind_param("i", $fixtureID);
         $query->execute();
 
         $result = $query->get_result(); // gets the result
 
-        $data = $result->fetch_all(MYSQLI_ASSOC); // fetches all rows using mode assoc
+        // fetches all rows using mode assoc
 
-        print_r($data);
+        //print_r($data);
 
-        //return $result->fetch_all();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
 

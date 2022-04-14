@@ -12,10 +12,13 @@ class controller
 {
 
     private $insertData;
+    private $selectData;
 
     public function __construct() {
+        $select = new select();
         $insert = new insert();
         $this->insertData = $insert;
+        $this->selectData = $select;
     }
 
     public function buildPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $teamID) {
@@ -30,6 +33,10 @@ class controller
     public function buildTeamData($teamID, $teamName, $fixtureID) {
 
         $this->insertData->insertTeamData($teamID, $teamName, $fixtureID);
+    }
+
+    public function selectLineup($fixtureID) {
+        return $this->selectData->getLineup($fixtureID);
     }
 
     public function getLineup($id) {

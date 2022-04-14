@@ -4,9 +4,11 @@ let linesups = document.getElementsByClassName("lineups");
 let statistics = document.getElementsByClassName("statistics");
 
 for (i = 0; i< linesups.length;i++ ) {
-    let value = linesups[i].getAttribute('name');
+    let fixtureID = linesups[i].getAttribute('name');
+    let homeTeam = linesups[i].getAttribute("homeTeam");
+    let awayTeam = linesups[i].getAttribute("awayTeam");
    linesups[i].addEventListener("click", function () {
-       openLineups(value);
+       openLineups(fixtureID, homeTeam, awayTeam);
    });
 }
 
@@ -15,8 +17,8 @@ for (let i = 0; i< statistics.length;i++ ) {
 }
 
 
-function openLineups(test) {
-    window.open("lineups.php?id="+test, "popup", "width=600px, height=600px");
+function openLineups(fixtureID, homeTeam, awayTeam) {
+    window.open("lineups.php?id="+fixtureID+"&homeTeam="+homeTeam+"&awayTeam="+awayTeam, "popup", "width=600px, height=600px");
 }
 
 function openStatistics() {

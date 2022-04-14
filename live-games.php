@@ -52,12 +52,15 @@ include "database/api.php";
                 <tr>
                     <td><?php print_r($fixture['fixture']['status']['elapsed'] . "'") ?></td>
                     <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
+                    <?php $homeTeam = $fixture['teams']['home']['name'];
+                    $awayTeam = $fixture['teams']['away']['name'];
+                    ?>
                     <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
                         print_r($fixture['goals']['away']) ?> </td>
                     <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
                     <?php $id = $fixture['fixture']['id']; ?>
                     <td>
-                        <button class="lineups" name="<?php echo $id; ?>">View</button>
+                        <button class="lineups" homeTeam = "<?php echo$homeTeam; ?>" awayTeam = "<?php echo$awayTeam;?>" name="<?php echo $id; ?>">View</button>
                     </td>
                     <td>
                         <button class="statistics" name="<?php echo $id ?>">View</button>
@@ -68,7 +71,6 @@ include "database/api.php";
         </div>
         <script src="java.js"></script>
     </div>
-</div>
 </div>
 
 </body>
