@@ -35,7 +35,7 @@ class controller
         $this->insertData->insertTeamData($teamID, $teamName, $fixtureID);
     }
 
-    public function selectLineup($fixtureID) {
+    public function findLineup($fixtureID) {
         return $this->selectData->getLineup($fixtureID);
     }
 

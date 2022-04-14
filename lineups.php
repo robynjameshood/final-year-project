@@ -19,6 +19,7 @@ require "../smart-stats/classes/controller.php";
 $id = "";
 $homeTeam = "";
 $awayTeam = "";
+$reload = "";
 
 if (isset($_GET['homeTeam'])) {
     $homeTeam = $_GET['homeTeam'];
@@ -34,6 +35,10 @@ if (isset($_GET['id'])) {
 
 checkDatabaseForFixture($id, $homeTeam, $awayTeam);
 
+if ($reload === true) {
+    header("location lineups.php");
+}
+
 
 
 // this function checks to see if the fixture data already exists in the database before calling the api; if the data is within the database, uses this data in the page
@@ -42,17 +47,17 @@ checkDatabaseForFixture($id, $homeTeam, $awayTeam);
 function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
 {
     $controller = new controller();
-    $data = $controller->selectLineup($id);
+    $data = $controller->findLineup($id);
 
     if ($data) {
         homeTeam($homeTeam, $data);
         awayTeam($awayTeam, $data);
     } else {
-        generateFixture($id);
-        header("Refresh:0");
+         $reload = generateFixture($id); // function that returns true/false based on if a lineup is found, if so, page refreshes / header location refresh caused unexpected array index issues
+         if ($reload === true) {
+             header("refresh: 1");
+         }
     }
-
-
 }
 
 // generate feature is designed to check to see if the lineup exists in the api, if the lineup key is empty, the controller returns false and informs the user.
@@ -61,8 +66,8 @@ function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
 
 function homeTeam($homeTeam, $data)
 {
-    //echo "<div>$homeTeam</div>";
-    echo "<table style='width: 300px; position: fixed; left: 0px; top: 0px'>";
+    echo "<div style='position: fixed; left: 0; width: 300px; text-align: center'>$homeTeam</div>";
+    echo "<table style='width: 300px; position: fixed; left: 0px; top: 20px'>";
     echo "<tr>";
     echo "<td>Position</td>";
     echo "<td>Player Name</td>";
@@ -83,8 +88,8 @@ function homeTeam($homeTeam, $data)
 
 function awayTeam($awayTeam, $data)
 {
-    //echo "<div>$awayTeam</div>";
-    echo "<table style='width: 300px; position: fixed; right: 0px; top: 0px'>";
+    echo "<div style='position: fixed; right: 0; width: 300px; text-align: center'>$awayTeam</div>";
+    echo "<table style='width: 300px; position: fixed; right: 0px; top: 20px'>";
     echo "<tr>";
     echo "<td>Position</td>";
     echo "<td>Player Name</td>";
@@ -111,19 +116,19 @@ function generateFixture($id)
 
     if ($response === false) {
         echo "No lineup available";
+        return false;
     } else {
-
         $buildFixture = new controller();
 
         $buildFixture->buildFixture($id);
+
+        echo "Loading Player Data... ";
 
         foreach ($response['response'] as $team) {
             $teamID = $team['team']['id'];
             $teamName = $team['team']['name'];
 
             $controller->buildTeamData($teamID, $teamName, $id);
-
-            echo "Inserting Player Data: ";
 
             foreach ($team['startXI'] as $player) {
                 $playerID = $player['player']['id'];
@@ -134,6 +139,7 @@ function generateFixture($id)
                 $controller->buildPlayer($playerID, $playerName, $playerPosition, $playerNumber, $teamID);
             }
         }
+        return true;
     }
 }
 
