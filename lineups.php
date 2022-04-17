@@ -39,8 +39,8 @@ function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
     $data = $controller->findLineup($id);
 
     if ($data) {
-        homeTeam($homeTeam, $data);
-        awayTeam($awayTeam, $data);
+        home($homeTeam, $data);
+        away($awayTeam, $data);
     } else {
         $reload = $controller->generateFixture($id);
         if ($reload == true) {
@@ -54,49 +54,83 @@ function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
 
 }
 
-function homeTeam($homeTeam, $data)
+function home($team, $playerData)
 {
-    echo "<div style='position: fixed; left: 0; width: 300px; text-align: center'>$homeTeam</div>";
-    echo "<table style='width: 300px; position: fixed; left: 0px; top: 20px'>";
-    echo "<tr>";
-    echo "<td>Position</td>";
-    echo "<td>Player Name</td>";
-    echo "</tr>";
+    ?>
+    <body>
+    <table class="home-lineup-table">
+        <tr>
+            <td colspan="5"><?php echo $team ?></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == true) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
+                }
+                echo "</tr>" ;} ?>
+        </tr>
+        <tr>
+            <td colspan="5">Substitutes</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == false) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
+                }
+                echo "</tr>" ;} ?>
+        </tr>
+    </table>
+    </body>
+<?php }
 
-    echo "<tr>";
-    foreach ($data as $player) {
-
-        if ($player['teamName'] == $homeTeam and $player['start'] == true) {
-            echo "<td>" . $player['position'] . "</td>";
-            echo "<td>" . $player['name'] . "</td>";
-        }
-        echo "</tr>";
-    }
-
-    echo "</table>";
-}
-
-function awayTeam($awayTeam, $data)
+function away($team, $playerData)
 {
-    echo "<div style='position: fixed; right: 0; width: 300px; text-align: center'>$awayTeam</div>";
-    echo "<table style='width: 300px; position: fixed; right: 0px; top: 20px'>";
-    echo "<tr>";
-    echo "<td>Position</td>";
-    echo "<td>Player Name</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-    foreach ($data as $player) {
-
-        if ($player['teamName'] == $awayTeam and $player['start'] == true) {
-            echo "<td>" . $player['position'] . "</td>";
-            echo "<td>" . $player['name'] . "</td>";
-        }
-        echo "</tr>";
-    }
-
-    echo "</table>";
-}
+    ?>
+    <body>
+    <table class="away-lineup-table">
+        <tr>
+            <td colspan="5"><?php echo $team ?></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == true) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
+                }
+                echo "</tr>" ;} ?>
+        </tr>
+        <tr>
+            <td colspan="5">Substitutes</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == false) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
+                }
+                echo "</tr>" ;} ?>
+        </tr>
+    </table>
+    </body>
+<?php } ?>
 
 
 

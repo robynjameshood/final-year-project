@@ -211,6 +211,28 @@ button:hover {
     text-align: center;
 }
 
+.home-lineup-table {
+    float: left;
+    position: relative;
+    width: 49%;
+}
+
+.home-lineup-table td {
+    text-align: center;
+    border: 1px solid lightskyblue;
+}
+
+.away-lineup-table {
+    float: right;
+    width: 50%;
+    position: relative;
+}
+
+.away-lineup-table td {
+    border: 1px solid orange;
+    text-align: center;
+}
+
 @media screen and (max-width: 600px) {
     /*Mobile version*/
     .widget {
