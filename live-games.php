@@ -6,6 +6,10 @@ $_SESSION['leagueID'] = "all";
 require_once "vendor/autoload.php";
 include "database/api.php";
 
+use Joli\JoliNotif\Notification;
+use Joli\JoliNotif\NotifierFactory;
+
+
 
 ?>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" lang="">
@@ -68,7 +72,14 @@ include "database/api.php";
                     <td>
                         <button class="statistics" home = "<?php echo $homeTeam; ?>" away = "<?php echo $awayTeam;?>" name="<?php echo $id; ?>">View</button>
                     </td>
-                    <?php } ?>
+                    <?php
+                    $time = $fixture['fixture']['status']['elapsed'];
+                    $home_goals = $fixture['goals']['home'];
+                    $away_goals = $fixture['goals']['away'];
+                    $league = $fixture['league']['name'];
+                    if ($time >= 70 and $home_goals + $away_goals == 0) {
+                        notifications($league,$time, $homeTeam, $home_goals, $awayTeam, $away_goals); ?>
+                    <?php }} ?>
                 </tr>
             </table>
         </div>
@@ -77,3 +88,23 @@ include "database/api.php";
 </div>
 
 </body>
+
+<?php
+
+function notifications($league, $time, $homeTeam, $home_goals, $awayTeam, $away_goals) {
+    $notifier = NotifierFactory::create();
+
+// Create your notification
+    if ($home_goals + $away_goals == 0 and $time >= 70) {
+    $notification =
+        (new Notification())
+            ->setTitle($time)
+            ->setBody("League: " . $league . $homeTeam . " Vs " . $awayTeam . "Score: " . $home_goals . ":" . $away_goals)
+            ->setIcon(__DIR__.'/path/to/your/icon.png')
+            ->addOption('subtitle', 'This is a subtitle') // Only works on macOS (AppleScriptNotifier)
+            ->addOption('sound', 'Frog') // Only works on macOS (AppleScriptNotifier)
+    ;
+
+// Send it
+    $notifier->send($notification);}
+}

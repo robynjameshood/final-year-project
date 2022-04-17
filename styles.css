@@ -156,15 +156,21 @@ a:link {
 .table-wrapper {
     top: 50px;
     position: relative;
-    overflow: hidden;
-    overflow-y: scroll;
-    height: 700px;
+    height: 800px;
     margin: auto;
+    width: 950px;
+    overflow-y: scroll;
 }
 
 .live-games-table {
-    width: 800px;
+    width: 900px;
     margin: auto;
+    overflow-y: scroll;
+}
+
+.live-games-table td {
+    border: 1px solid lightskyblue;
+    border-radius: 4px 4px;
 }
 
 button {
@@ -231,6 +237,20 @@ button:hover {
 .away-lineup-table td {
     border: 1px solid orange;
     text-align: center;
+}
+
+.no-lineups-flex {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    height: 500px;
+    width: 600px;
+}
+
+.no-lineups-body {
+    background-color: lightblue;
 }
 
 @media screen and (max-width: 600px) {

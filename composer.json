@@ -3,8 +3,8 @@
     "require": {
         "guzzlehttp/guzzle": "^7.4",
       "ext-json": "*",
-      "ext-http": "*",
       "ext-curl": "*",
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+        "jolicode/jolinotif": "^2.4"
     }
 }

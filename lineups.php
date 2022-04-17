@@ -47,11 +47,22 @@ function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
             header("refresh: 1");
         }
         else {
-            echo "Lineup's not available for this fixture";
+            noLineup($homeTeam, $awayTeam);
         }
 
     }
 
+}
+
+function noLineup($homeTeam, $awayTeam) {
+    ?>
+    <body class="no-lineups-body">
+    <div class="no-lineups-flex">
+    <div class="no-lineups"><p><?php echo $homeTeam . " V " . $awayTeam ?></p></div>
+    <div id="no-lineup-text">Player Data Not Available</div>
+    </div>
+    </body>
+    <?php
 }
 
 function home($team, $playerData)

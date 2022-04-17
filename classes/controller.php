@@ -6,6 +6,8 @@ require "database/insert.php";
 require "database/select.php";
 require "database/api.php";
 
+use Joli\JoliNotif\Notification;
+use Joli\JoliNotif\NotifierFactory;
 use insert;
 use select;
 
@@ -93,7 +95,6 @@ class controller
             }
             return true;
         } else {
-            echo "Controller says - No data from the API";
             return false;
         }
     }
@@ -118,9 +119,22 @@ class controller
                     }
                 }
             }
-
-        } else {
-            echo "Controller says: Error (generatePlayerData) no data from API";
         }
+    }
+
+    function notifications($time, $homeTeam, $home_goals, $awayTeam, $away_goals) {
+        $notifier = NotifierFactory::create();
+
+        if ($home_goals + $away_goals == 0 and $time >= 70) {
+            $notification =
+                (new Notification())
+                    ->setTitle($time)
+                    ->setBody($homeTeam . " Vs " . $awayTeam . "Score: " . $home_goals . ":" . $away_goals)
+                    ->setIcon(__DIR__.'/path/to/your/icon.png')
+                    ->addOption('subtitle', 'This is a subtitle') // Only works on macOS (AppleScriptNotifier)
+                    ->addOption('sound', 'Frog') // Only works on macOS (AppleScriptNotifier)
+            ;
+
+            $notifier->send($notification);}
     }
 }
