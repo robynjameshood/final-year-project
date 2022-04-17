@@ -31,16 +31,19 @@ class insert
         $query->execute();
     }
 
-    public function insertPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $teamID) {
+    public function insertPlayer($playerIO, $playerName, $playerPosition, $shirtNumber, $xi, $teamID) {
         global $connection;
 
-        $query = $connection->prepare("insert ignore into player (playerID, name, position, shirtNumber, teamID) value (?, ?, ?, ?, ?)");
-        $query->bind_param("issii", $playerIO, $playerName, $playerPosition, $shirtNumber, $teamID);
+        $query = $connection->prepare("insert ignore into player (playerID, name, position, shirtNumber, start, teamID) value (?, ?, ?, ?, ?, ?)");
+        $query->bind_param("issiii", $playerIO, $playerName, $playerPosition, $shirtNumber, $xi, $teamID);
         $query->execute();
     }
 
     public function insertPlayerStatistics($shots_on_target, $tackles, $fouls, $playerID) {
         global $connection;
+
+        //echo "Inserting: ";
+        //echo "Shots: " . $shots_on_target . "Tackles: " . $tackles . "Fouls: " . $fouls . "Player ID: " . $playerID;
 
         $query = $connection->prepare("insert ignore into statistics (shotsOnTarget, tackles, fouls, playerID) value (?, ?, ?, ?)");
         $query->bind_param("iiii", $shots_on_target, $tackles, $fouls, $playerID);
@@ -50,7 +53,7 @@ class insert
     public function updatePlayerStatistics($shots_on_target, $tackles, $fouls, $playerID) {
         global $connection;
 
-        echo "ID: " . $playerID . "Shots: " . $shots_on_target . "Tackles: " . $tackles . "Fouls: " . $fouls . '<br>';
+        //echo "ID: " . $playerID . "Shots: " . $shots_on_target . "Tackles: " . $tackles . "Fouls: " . $fouls . '<br>';
 
         $query = $connection->prepare("UPDATE statistics set shotsOnTarget = ?, tackles = ?, fouls = ? WHERE playerID = ?");
         $query->bind_param("iiii", $shots_on_target, $tackles, $fouls, $playerID);

@@ -33,11 +33,6 @@ if ($reload === true) {
     header("location lineups.php");
 }
 
-
-
-// this function checks to see if the fixture data already exists in the database before calling the api; if the data is within the database, uses this data in the page
-// instead of wasting an api call on the same data.
-
 function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
 {
     $controller = new controller();
@@ -47,16 +42,17 @@ function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
         homeTeam($homeTeam, $data);
         awayTeam($awayTeam, $data);
     } else {
-         $reload = generateFixture($id); // function that returns true/false based on if a lineup is found, if so, page refreshes / header location refresh caused unexpected array index issues
-         if ($reload === true) {
-             header("refresh: 1");
-         }
-    }
-}
+        $reload = $controller->generateFixture($id);
+        if ($reload == true) {
+            header("refresh: 1");
+        }
+        else {
+            echo "Lineup's not available for this fixture";
+        }
 
-// generate feature is designed to check to see if the lineup exists in the api, if the lineup key is empty, the controller returns false and informs the user.
-// if a lineup is found, the controller will then proceed to build the fixture data table, the team data table which relates to the fixture table
-// it will then build the player data table which relates to the team table, which relates to the fixture table.
+    }
+
+}
 
 function homeTeam($homeTeam, $data)
 {
@@ -70,7 +66,7 @@ function homeTeam($homeTeam, $data)
     echo "<tr>";
     foreach ($data as $player) {
 
-        if ($player['teamName'] == $homeTeam) {
+        if ($player['teamName'] == $homeTeam and $player['start'] == true) {
             echo "<td>" . $player['position'] . "</td>";
             echo "<td>" . $player['name'] . "</td>";
         }
@@ -92,7 +88,7 @@ function awayTeam($awayTeam, $data)
     echo "<tr>";
     foreach ($data as $player) {
 
-        if ($player['teamName'] == $awayTeam) {
+        if ($player['teamName'] == $awayTeam and $player['start'] == true) {
             echo "<td>" . $player['position'] . "</td>";
             echo "<td>" . $player['name'] . "</td>";
         }
@@ -102,38 +98,5 @@ function awayTeam($awayTeam, $data)
     echo "</table>";
 }
 
-function generateFixture($id)
-{
-    $controller = new controller();
 
-    $response = $controller->getLineup($id);
-
-    if ($response === false) {
-        echo "No lineup available";
-        return false;
-    } else {
-        $buildFixture = new controller();
-
-        $buildFixture->buildFixture($id);
-
-        echo "Loading Player Data... ";
-
-        foreach ($response['response'] as $team) {
-            $teamID = $team['team']['id'];
-            $teamName = $team['team']['name'];
-
-            $controller->buildTeamData($teamID, $teamName, $id);
-
-            foreach ($team['startXI'] as $player) {
-                $playerID = $player['player']['id'];
-                $playerName = $player['player']['name'];
-                $playerPosition = $player['player']['pos'];
-                $playerNumber = $player['player']['number'];
-
-                $controller->buildPlayer($playerID, $playerName, $playerPosition, $playerNumber, $teamID);
-            }
-        }
-        return true;
-    }
-}
 

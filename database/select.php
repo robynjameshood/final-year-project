@@ -14,7 +14,7 @@ class select
     {
         global $connection;
 
-        $query = $connection->prepare("SELECT player.name, player.position, player.shirtNumber, team.teamName
+        $query = $connection->prepare("SELECT player.name, player.position, player.shirtNumber, team.teamName, player.start
                                         FROM player
                                         INNER JOIN team ON player.teamID = team.teamID
                                         INNER JOIN fixture ON team.fixtureID = fixture.fixtureID
@@ -32,8 +32,23 @@ class select
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPlayerStatistics($fixtureID) {
-        return 0;
+    public function getPlayerStatistics($fixtureID)
+    {
+        global $connection;
+
+        $query = $connection->prepare("SELECT team.teamName, player.name, player.position, statistics.shotsOnTarget, statistics.tackles, statistics.fouls, player.start
+                                        FROM player
+                                        INNER JOIN statistics ON player.playerID = statistics.playerID
+                                        INNER JOIN team ON team.teamID = player.teamID
+                                        INNER JOIN fixture ON fixture.fixtureID = team.fixtureID
+                                        WHERE fixture.fixtureID = ?
+                                        ORDER BY player.position");
+        $query->bind_param("i", $fixtureID);
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
 

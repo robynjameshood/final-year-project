@@ -1228,52 +1228,51 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="347" parent="337" name="teamID">
-      <DataType>int(11)|0s</DataType>
+    <column id="347" parent="337" name="start">
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="348" parent="337" name="player_ibfk_1">
+    <column id="348" parent="337" name="teamID">
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <foreign-key id="349" parent="337" name="player_ibfk_1">
       <ColNames>teamID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>teamID</RefColNames>
       <RefTableName>team</RefTableName>
     </foreign-key>
-    <index id="349" parent="337" name="teamID">
+    <index id="350" parent="337" name="teamID">
       <ColNames>teamID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="350" parent="337" name="PRIMARY">
+    <key id="351" parent="337" name="PRIMARY">
       <ColNames>playerID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="351" parent="338" name="id">
+    <column id="352" parent="338" name="shotsOnTarget">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="352" parent="338" name="shotsOnTarget">
-      <DataType>double|0s</DataType>
+    <column id="353" parent="338" name="tackles">
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="353" parent="338" name="tackles">
-      <DataType>double|0s</DataType>
+    <column id="354" parent="338" name="fouls">
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-    </column>
-    <column id="354" parent="338" name="fouls">
-      <DataType>double|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
     </column>
     <column id="355" parent="338" name="playerID">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <Position>5</Position>
+      <Position>4</Position>
     </column>
     <foreign-key id="356" parent="338" name="statistics_ibfk_1">
       <ColNames>playerID</ColNames>
@@ -1282,72 +1281,68 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <RefColNames>playerID</RefColNames>
       <RefTableName>player</RefTableName>
     </foreign-key>
-    <index id="357" parent="338" name="playerID">
+    <key id="357" parent="338" name="PRIMARY">
       <ColNames>playerID</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="358" parent="338" name="PRIMARY">
-      <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="359" parent="339" name="teamID">
+    <column id="358" parent="339" name="teamID">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="360" parent="339" name="teamName">
+    <column id="359" parent="339" name="teamName">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="361" parent="339" name="fixtureID">
+    <column id="360" parent="339" name="fixtureID">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="362" parent="339" name="team_ibfk_1">
+    <foreign-key id="361" parent="339" name="team_ibfk_1">
       <ColNames>fixtureID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>fixtureID</RefColNames>
       <RefTableName>fixture</RefTableName>
     </foreign-key>
-    <index id="363" parent="339" name="fixtureID">
+    <index id="362" parent="339" name="fixtureID">
       <ColNames>teamName</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="364" parent="339" name="fixtureID_2">
+    <index id="363" parent="339" name="fixtureID_2">
       <ColNames>fixtureID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="339" name="PRIMARY">
+    <key id="364" parent="339" name="PRIMARY">
       <ColNames>teamID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="366" parent="340" name="id">
+    <column id="365" parent="340" name="id">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="367" parent="340" name="username">
+    <column id="366" parent="340" name="username">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="368" parent="340" name="email">
+    <column id="367" parent="340" name="email">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="369" parent="340" name="password">
+    <column id="368" parent="340" name="password">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <key id="370" parent="340" name="PRIMARY">
+    <key id="369" parent="340" name="PRIMARY">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>

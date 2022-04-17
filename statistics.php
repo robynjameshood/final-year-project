@@ -40,174 +40,131 @@ if ($reload === true) {
 function checkDatabaseForFixture($id, $homeTeam, $awayTeam)
 {
     $controller = new controller();
-    $data = $controller->findLineup($id); // database call to find the line up of a fixture using $id (fixture id).
-    $playerData = $controller->findStatistics($id); // database call to find player statistics using $id (fixture id).
+    //$data = $controller->findLineup($id); // calls the controller to find the line-up in the database.
+    $playerData = $controller->findStatistics($id); // calls the database to find the stats for a game in play.
 
-
-    if (!empty($data)) {
-        updatePlayerStats($id);
-        homeTeam($homeTeam, $playerData); // passes the hometeam name and playerdata to echo the table of player data
-        awayTeam($awayTeam, $playerData); // passes the hometeam name and playerdata to echo the table of player data
-
+    if ($playerData) { // checks to see if the sql data exists. This function will only fire if the lineup is available from the api.
+        $controller->updatePlayerStats($id); // if the fixture data (line-up) exists, then on each click of view on the front end the player statistics data needs to be updated (database).
+        home($homeTeam, $playerData); // sends homeTeam functions the name of the team (obtained via GET from the javascript parameter passing). Passes player data if it exists from the database.
+        away($awayTeam, $playerData);
     } else {
-        $reloadFixtureData = generateFixture($id); // function that returns true/false based on if a lineup is found, if so, page refreshes / header location refresh caused unexpected array index issues$playerData = generatePlayerData($id); // returns api response with player statistics.
-        $reloadPlayerData = generatePlayerData($id);
-        if ($reloadFixtureData == true and $reloadPlayerData) {
+        $reload_fixture = $controller->generateFixture($id); // calls the controller, this calls the api to obtain the fixture data, returning true if the data exists and proceeds to insert into the database, false if not.
+        $reload_player_data = $controller->generatePlayerData($id); // same as above, returns true if the controller has received a response from the api and procceds to insert into the database.
+        if ($reload_fixture == true and $reload_player_data == true) { // causes the page to reload if both variables are true.
             header("refresh: 1");
-            $reloadFixtureData = false;
+        } else {
+            echo "Lineup's not available for this fixture"; // If the api doesn't contain data / lineup, then we won't be able to get the player stats, so echo this.
         }
-        else {
-            echo "No lineup data available";
-        }
+
     }
 
 }
 
-// generate feature is designed to check to see if the lineup exists in the api, if the lineup key is empty, the controller returns false and informs the user.
-// if a lineup is found, the controller will then proceed to build the fixture data table, the team data table which relates to the fixture table
-// it will then build the player data table which relates to the team table, which relates to the fixture table.
-
-function homeTeam($homeTeam, $playerData)
+function home($team, $playerData)
 {
-    echo "<div style='position: fixed; left: 0; width: 300px; text-align: center'>$homeTeam</div>";
-    echo "<table style='width: 300px; position: fixed; left: 0px; top: 20px'>";
-    echo "<tr>";
-    echo "<td>Name</td>";
-    echo "<td>Shots</td>";
-    echo "<td>Tackles</td>";
-    echo "<td>Fouls</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-//    foreach ($playerData[0]['players'] as $player) {
-//
-//        echo "<td>" . $player['player']['name'] . "</td>";
-//        foreach ($player['statistics'] as $stats) {
-//            echo "<td>" . $stats['shots']['on'] . "</td>";
-//            echo "<td>" . $stats['tackles'] . "</td>";
-//            echo "<td>" . $stats['fouls'] . "</td>";
-//        }
-//
-//        echo "</tr>";
-//    }
-
-    echo "</table>";
-}
-
-function awayTeam($awayTeam, $playerData)
-{
-    echo "<div style='position: fixed; right: 0; width: 300px; text-align: center'>$awayTeam</div>";
-    echo "<table style='width: 300px; position: fixed; right: 0px; top: 20px'>";
-    echo "<tr>";
-    echo "<td>Position</td>";
-    echo "<td>Player Name</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-//    foreach ($playerData as $player) {
-//
-//        if ($player['teamName'] == $awayTeam) {
-//            echo "<td>" . $player['position'] . "</td>";
-//            echo "<td>" . $player['name'] . "</td>";
-//        }
-//        echo "</tr>";
-//    }
-
-    echo "</table>";
-}
-
-function generateFixture($id)
-{
-    $controller = new controller();
-
-    $response = $controller->getLineup($id);
-
-    if ($response === false) {
-        return false;
-    } else {
-        $buildFixture = new controller();
-
-        $buildFixture->buildFixture($id);
-
-        echo "Loading Player Data... ";
-
-        foreach ($response['response'] as $team) {
-            $teamID = $team['team']['id'];
-            $teamName = $team['team']['name'];
-
-            $controller->buildTeamData($teamID, $teamName, $id);
-
-            foreach ($team['startXI'] as $player) {
-                $playerID = $player['player']['id'];
-                $playerName = $player['player']['name'];
-                $playerPosition = $player['player']['pos'];
-                $playerNumber = $player['player']['number'];
-
-                $controller->buildPlayer($playerID, $playerName, $playerPosition, $playerNumber, $teamID);
+    ?>
+    <body>
+    <table class="home-stats-table">
+        <tr>
+            <td colspan="5"><?php echo $team ?></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Shots On Target</td>
+            <td>Tackles</td>
+            <td>Fouls</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+            if ($player['teamName'] == $team and $player['start'] == true) {
+            echo "<td>" . $player['name'] . "</td>";
+            echo "<td>" . $player['shotsOnTarget'] . "</td>";
+            echo "<td>" . $player['tackles'] . "</td>";
+            echo "<td>" . $player['fouls'] . "</td>";
+            echo "<td>" . $player['position'] . "</td>";
             }
-
-            foreach ($team['substitutes'] as $subs) {
-                echo "inserting subs";
-                $playerID = $subs['player']['id'];
-                $playerName = $subs['player']['name'];
-                $playerPosition = $subs['player']['pos'];
-                $playerNumber = $subs['player']['number'];
-
-                $controller->buildPlayer($playerID, $playerName, $playerPosition, $playerNumber, $teamID);
-            }
-        }
-        return true;
-    }
-}
-
-function generatePlayerData($id)
-{
-    $controller = new controller();
-
-    $data = $controller->getStatistics($id);
-
-    if ($data['response']) {
-
-        foreach ($data['response'] as $team) {
-            foreach ($team['players'] as $player) {
-
-                $playerID = $player['player']['id'];
-
-                foreach ($player['statistics'] as $stats) {
-                    $shots_on_target = $stats['shots']['on'];
-                    $tackles = $stats['tackles']['total'];
-                    $fouls = $stats['fouls']['committed'];
-
-                    $controller->buildPlayerStatistics($shots_on_target, $tackles, $fouls, $playerID);
+            echo "</tr>" ;} ?>
+        </tr>
+        <tr>
+            <td colspan="5">Substitutes</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Shots On Target</td>
+            <td>Tackles</td>
+            <td>Fouls</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == false) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['shotsOnTarget'] . "</td>";
+                    echo "<td>" . $player['tackles'] . "</td>";
+                    echo "<td>" . $player['fouls'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
                 }
+                echo "</tr>" ;} ?>
+        </tr>
+    </table>
+    </body>
+<?php }
+
+function away($team, $playerData)
+{
+    ?>
+    <body>
+    <table class="away-stats-table">
+        <tr>
+            <td colspan="5"><?php echo $team ?></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Shots On Target</td>
+            <td>Tackles</td>
+            <td>Fouls</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+            if ($player['teamName'] == $team and $player['start'] == true) {
+            echo "<td>" . $player['name'] . "</td>";
+            echo "<td>" . $player['shotsOnTarget'] . "</td>";
+            echo "<td>" . $player['tackles'] . "</td>";
+            echo "<td>" . $player['fouls'] . "</td>";
+            echo "<td>" . $player['position'] . "</td>";
             }
-        }
-        return $data;
-    }
-    else {
-        return false;
-    }
+            echo "</tr>" ;} ?>
+        </tr>
+        <tr>
+            <td colspan="5">Substitutes</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>Shots On Target</td>
+            <td>Tackles</td>
+            <td>Fouls</td>
+            <td>Position</td>
+        </tr>
+        <tr> <?php
+            foreach ($playerData as $player) {
+                if ($player['teamName'] == $team and $player['start'] == false) {
+                    echo "<td>" . $player['name'] . "</td>";
+                    echo "<td>" . $player['shotsOnTarget'] . "</td>";
+                    echo "<td>" . $player['tackles'] . "</td>";
+                    echo "<td>" . $player['fouls'] . "</td>";
+                    echo "<td>" . $player['position'] . "</td>";
+                }
+                echo "</tr>" ;} ?>
+        </tr>
+    </table>
+    </body>
+<?php } ?>
 
-}
 
-function updatePlayerStats($id) {
-    $controller = new controller();
 
-    $data = $controller->getStatistics($id);
 
-    foreach ($data['response'] as $team) {
-        foreach ($team['players'] as $player) {
 
-            $playerID = $player['player']['id'];
 
-            foreach ($player['statistics'] as $stats) {
-                $shots_on_target = $stats['shots']['on'];
-                $tackles = $stats['tackles']['total'];
-                $fouls = $stats['fouls']['committed'];
-
-                $controller->updatePlayerData($shots_on_target, $tackles, $fouls, $playerID);
-            }
-        }
-    }
-}
 

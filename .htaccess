@@ -1,6 +1,4 @@
-RewriteCond %{THE_REQUEST} /brands\.php\?p=([^\s&]+) [NC]
-RewriteRule ^ lineups/%1? [R=302,L]
-
+RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^lineups/([^/]+)/?$ lineups.php?p=$1 [L,QSA,NC]
+RewriteCond %{REQUEST_FILENAME}\.php !-f
+RewriteRule ^item/([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+) index.php?tslug=$2&cat=$1 [NC,L]

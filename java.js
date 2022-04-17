@@ -28,6 +28,6 @@ function openLineups(fixtureID, homeTeam, awayTeam) {
 }
 
 function openStatistics(fixtureID, homeTeam, awayTeam) {
-    window.open("statistics.php?id="+fixtureID+"&homeTeam="+homeTeam+"&awayTeam="+awayTeam, "popup", "width=600px, height=600px");
+    window.open("statistics.php?id="+fixtureID+"&homeTeam="+homeTeam+"&awayTeam="+awayTeam, "popup", "width=1500px, height=600px");
 }
 
