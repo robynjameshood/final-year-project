@@ -162,13 +162,13 @@ a:link {
     margin: auto;
 }
 
-.fixtureID {
-
+.live-games-table {
+    width: 800px;
 }
 
 table {
     margin: auto;
-    width: 700px;
+    width: 800px;
 }
 
 td {
@@ -181,8 +181,6 @@ td {
 th {
     position: fixed;
 }
-
-.lin
 
 button {
     border:none;
@@ -206,7 +204,7 @@ button:hover {
     top: 0;
 }
 
-@media screen and (max-width: 1575px){ /*Mobile version*/
+@media screen and (max-width: 600px){ /*Mobile version*/
     .widget {
         display: none;
     }

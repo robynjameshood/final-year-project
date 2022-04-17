@@ -31,6 +31,10 @@ class select
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getPlayerStatistics($fixtureID) {
+        return 0;
+    }
 }
 
 

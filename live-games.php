@@ -44,7 +44,8 @@ include "database/api.php";
                     <td>Home</td>
                     <td>Score</td>
                     <td>Away</td>
-                    <td>Lineup</td>
+                    <td>League</td>
+                    <td>Lineups</td>
                     <td>Statistics</td>
                 </tr>
                 <?php
@@ -53,17 +54,19 @@ include "database/api.php";
                     <td><?php print_r($fixture['fixture']['status']['elapsed'] . "'") ?></td>
                     <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
                     <?php $homeTeam = $fixture['teams']['home']['name'];
-                    $awayTeam = $fixture['teams']['away']['name'];
-                    ?>
+                    $awayTeam = $fixture['teams']['away']['name']; ?>
+
                     <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
                         print_r($fixture['goals']['away']) ?> </td>
                     <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
                     <?php $id = $fixture['fixture']['id']; ?>
+                    <td><?php print_r($fixture['league']['country']); echo ": ";  ?>
+                    <?php print_r($fixture['league']['name']) ;?></td>
                     <td>
-                        <button class="lineups" homeTeam = "<?php echo$homeTeam; ?>" awayTeam = "<?php echo$awayTeam;?>" name="<?php echo $id; ?>">View</button>
+                        <button class="lineups" homeTeam = "<?php echo $homeTeam; ?>" awayTeam = "<?php echo $awayTeam;?>" name="<?php echo $id; ?>">View</button>
                     </td>
                     <td>
-                        <button class="statistics" name="<?php echo $id ?>">View</button>
+                        <button class="statistics" home = "<?php echo $homeTeam; ?>" away = "<?php echo $awayTeam;?>" name="<?php echo $id; ?>">View</button>
                     </td>
                     <?php } ?>
                 </tr>

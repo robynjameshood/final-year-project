@@ -6,14 +6,8 @@ session_start(); ?>
 
 <?php
 
-use smartstats\player;
-
-//use smartstats\team;
 use smartstats\controller;
 
-require "../smart-stats/classes/team.php";
-require "../smart-stats/classes/player.php";
-require_once "../smart-stats/database/api.php";
 require "../smart-stats/classes/controller.php";
 
 $id = "";

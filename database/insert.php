@@ -38,4 +38,22 @@ class insert
         $query->bind_param("issii", $playerIO, $playerName, $playerPosition, $shirtNumber, $teamID);
         $query->execute();
     }
+
+    public function insertPlayerStatistics($shots_on_target, $tackles, $fouls, $playerID) {
+        global $connection;
+
+        $query = $connection->prepare("insert ignore into statistics (shotsOnTarget, tackles, fouls, playerID) value (?, ?, ?, ?)");
+        $query->bind_param("iiii", $shots_on_target, $tackles, $fouls, $playerID);
+        $query->execute();
+    }
+
+    public function updatePlayerStatistics($shots_on_target, $tackles, $fouls, $playerID) {
+        global $connection;
+
+        echo "ID: " . $playerID . "Shots: " . $shots_on_target . "Tackles: " . $tackles . "Fouls: " . $fouls . '<br>';
+
+        $query = $connection->prepare("UPDATE statistics set shotsOnTarget = ?, tackles = ?, fouls = ? WHERE playerID = ?");
+        $query->bind_param("iiii", $shots_on_target, $tackles, $fouls, $playerID);
+        $query->execute();
+    }
 }
