@@ -6,9 +6,6 @@ $_SESSION['leagueID'] = "all";
 require_once "vendor/autoload.php";
 include "database/api.php";
 
-use Joli\JoliNotif\Notification;
-use Joli\JoliNotif\NotifierFactory;
-
 
 ?>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" lang="">
@@ -39,7 +36,6 @@ use Joli\JoliNotif\NotifierFactory;
         $response = inplay($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
         ?>
 
-
         <div class="table-wrapper">
             <table class="live-games-table">
                 <tr>
@@ -54,21 +50,29 @@ use Joli\JoliNotif\NotifierFactory;
                 <?php
                 foreach ($response['response'] as $fixture) { ?>
                 <tr>
-                    <td><?php print_r($fixture['fixture']['status']['elapsed'] . "'") ?></td>
-                    <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
-                    <?php $homeTeam = $fixture['teams']['home']['name'];
-                    $awayTeam = $fixture['teams']['away']['name']; ?>
+                    <?php
+                    $time = $fixture['fixture']['status']['elapsed'];
+                    $home_goals = $fixture['goals']['home'];
+                    $away_goals = $fixture['goals']['away'];
+                    $league = $fixture['league']['name'];
+                    $homeTeam = $fixture['teams']['home']['name'];
+                    $awayTeam = $fixture['teams']['away']['name'];
+                    $country = $fixture['league']['country']; ?>
+                    <td><?php echo $time . "'"; ?></td>
+                    <td><?php echo $homeTeam; ?> </td>
+                    <?php ?>
 
-                    <td><?php print_r($fixture['goals']['home']); ?><?php echo ":";
-                        print_r($fixture['goals']['away']) ?> </td>
-                    <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
+                    <td><?php echo $home_goals; ?><?php echo ":" .
+                        $away_goals ?> </td>
+                    <td><?php echo $awayTeam; ?> </td>
                     <?php $id = $fixture['fixture']['id']; ?>
-                    <td><?php print_r($fixture['league']['country']);
+                    <td><?php echo $country;
                         echo ": "; ?>
-                        <?php print_r($fixture['league']['name']); ?></td>
+                        <?php echo $league; ?></td>
                     <td>
                         <button class="lineups" homeTeam="<?php echo $homeTeam; ?>" awayTeam="<?php echo $awayTeam; ?>"
-                                name="<?php echo $id; ?>">View
+                                name="<?php echo $id; ?>" homeGoals="<?php echo $home_goals; ?>"
+                                awayGoals="<?php echo $away_goals; ?>">View
                         </button>
                     </td>
                     <td>
@@ -76,15 +80,12 @@ use Joli\JoliNotif\NotifierFactory;
                                 name="<?php echo $id; ?>">View
                         </button>
                     </td>
-                    <?php
-                    $time = $fixture['fixture']['status']['elapsed'];
-                    $home_goals = $fixture['goals']['home'];
-                    $away_goals = $fixture['goals']['away'];
-                    $league = $fixture['league']['name'];
-                    if ($time >= 70 and $home_goals + $away_goals == 0) {
-                        notifications($league, $time, $homeTeam, $home_goals, $awayTeam, $away_goals); ?>
-                    <?php }
-                    } ?>
+                    <div class="notification-values" homeTeam="<?php echo $homeTeam; ?>"
+                         awayTeam="<?php echo $awayTeam; ?>"
+                         name="<?php echo $id; ?>" homeGoals="<?php echo $home_goals; ?>"
+                         awayGoals="<?php echo $away_goals; ?>" time="<?php echo $time ?>"></div>
+                    <?php } ?>
+
                 </tr>
             </table>
         </div>
@@ -96,17 +97,3 @@ use Joli\JoliNotif\NotifierFactory;
 
 <?php
 
-function notifications($league, $time, $homeTeam, $home_goals, $awayTeam, $away_goals)
-{
-    $notifier = NotifierFactory::create();
-
-    $notification =
-        (new Notification())
-            ->setTitle($time)
-            ->setBody("League: " . $league . $homeTeam . " Vs " . $awayTeam . "Score: " . $home_goals . ":" . $away_goals)
-            ->setIcon(__DIR__ . '/path/to/your/icon.png')
-            ->addOption('subtitle', 'This is a subtitle') // Only works on macOS (AppleScriptNotifier)
-            ->addOption('sound', 'Frog');
-
-    $notifier->send($notification);
-}

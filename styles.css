@@ -154,9 +154,9 @@ a:link {
 /* Premier League Page*/
 
 .table-wrapper {
-    top: 50px;
+    top: 25px;
     position: relative;
-    height: 800px;
+    height: 750px;
     margin: auto;
     width: 950px;
     overflow-y: scroll;

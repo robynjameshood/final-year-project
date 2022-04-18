@@ -1,6 +1,6 @@
 <?php
 
-function inplay($id, $request = null)
+function inplay($id = null, $request = null)
 {
     $response = "";
 

@@ -42,8 +42,25 @@ class select
                                         INNER JOIN team ON team.teamID = player.teamID
                                         INNER JOIN fixture ON fixture.fixtureID = team.fixtureID
                                         WHERE fixture.fixtureID = ?
-                                        ORDER BY player.position");
+                                        ORDER BY statistics.fouls desc ");
         $query->bind_param("i", $fixtureID);
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPlayerWatchList($tackles, $fouls)
+    {
+        global $connection;
+
+        $query = $connection->prepare("SELECT player.name, statistics.tackles, statistics.fouls, team.teamName, player.position
+                                            FROM player
+                                            INNER JOIN statistics on statistics.playerID = player.playerID
+                                            INNER JOIN team ON team.teamID = player.teamID
+                                            WHERE statistics.tackles >= ? AND statistics.fouls >= ?");
+        $query->bind_param("ii", $tackles, $fouls);
         $query->execute();
 
         $result = $query->get_result();

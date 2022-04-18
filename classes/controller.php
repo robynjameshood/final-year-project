@@ -122,19 +122,12 @@ class controller
         }
     }
 
-    function notifications($time, $homeTeam, $home_goals, $awayTeam, $away_goals) {
-        $notifier = NotifierFactory::create();
+    function getLiveGames() {
+        return $fixtures = inplay();
 
-        if ($home_goals + $away_goals == 0 and $time >= 70) {
-            $notification =
-                (new Notification())
-                    ->setTitle($time)
-                    ->setBody($homeTeam . " Vs " . $awayTeam . "Score: " . $home_goals . ":" . $away_goals)
-                    ->setIcon(__DIR__.'/path/to/your/icon.png')
-                    ->addOption('subtitle', 'This is a subtitle') // Only works on macOS (AppleScriptNotifier)
-                    ->addOption('sound', 'Frog') // Only works on macOS (AppleScriptNotifier)
-            ;
+    }
 
-            $notifier->send($notification);}
+    function getPlayerWatchList($tackles, $fouls) {
+        return $this->selectData->getPlayerWatchList($tackles, $fouls);
     }
 }
