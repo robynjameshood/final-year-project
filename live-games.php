@@ -83,7 +83,7 @@ include "database/api.php";
                     <div class="notification-values" homeTeam="<?php echo $homeTeam; ?>"
                          awayTeam="<?php echo $awayTeam; ?>"
                          name="<?php echo $id; ?>" homeGoals="<?php echo $home_goals; ?>"
-                         awayGoals="<?php echo $away_goals; ?>" time="<?php echo $time ?>"></div>
+                         awayGoals="<?php echo $away_goals; ?>" time="<?php echo $time ?>" league="<?php echo $league ?>"></div>
                     <?php } ?>
 
                 </tr>

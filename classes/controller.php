@@ -123,8 +123,8 @@ class controller
     }
 
     function getLiveGames() {
-        return $fixtures = inplay();
-
+        $fixtures = inplay();
+        return $fixtures;
     }
 
     function getPlayerWatchList($tackles, $fouls) {

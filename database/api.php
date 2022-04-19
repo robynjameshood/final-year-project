@@ -31,7 +31,8 @@ function inplay($id = null, $request = null)
             if ($err) {
                 echo "cURL Error #:" . $err;
             }
-            break;
+            return $response;
+
         case is_numeric($id) and $request == "league":
             $curl = curl_init();
 

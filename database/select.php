@@ -59,7 +59,7 @@ class select
                                             FROM player
                                             INNER JOIN statistics on statistics.playerID = player.playerID
                                             INNER JOIN team ON team.teamID = player.teamID
-                                            WHERE statistics.tackles >= ? AND statistics.fouls >= ?");
+                                            WHERE statistics.tackles >= ? or statistics.fouls >= ?");
         $query->bind_param("ii", $tackles, $fouls);
         $query->execute();
 

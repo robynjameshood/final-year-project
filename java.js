@@ -20,6 +20,7 @@ for (let i = 0; i < notificationValues.length;i++) {
     let away = notificationValues[i].getAttribute("awayTeam");
     let homeGoals = notificationValues[i].getAttribute("homeGoals");
     let awayGoals = notificationValues[i].getAttribute("awayGoals");
+    let league = notificationValues[i].getAttribute("league");
     let time = notificationValues[i].getAttribute("time");
     let parsedHomeGoals = parseInt(homeGoals);
     let parsedAwayGoals = parseInt(awayGoals);
@@ -27,7 +28,7 @@ for (let i = 0; i < notificationValues.length;i++) {
 
     if (time > 70 && totalGoals <= 1) {
         console.log(totalGoals);
-        notifyBrowser(home, away, homeGoals, awayGoals, time);
+        notifyBrowser(home, away, homeGoals, awayGoals, time, league);
     }
 }
 
@@ -49,14 +50,14 @@ function openStatistics(fixtureID, homeTeam, awayTeam) {
     window.open("statistics.php?id="+fixtureID+"&homeTeam="+homeTeam+"&awayTeam="+awayTeam, "popup", "width=1000px, height=800px");
 }
 
-function notifyBrowser(home, away, homeGoals, awayGoals, time) {
+function notifyBrowser(home, away, homeGoals, awayGoals, time, league) {
     if (!Notification) {
         console.log('Desktop notifications not available in your browser..');
     }
     if (Notification.permission !== "granted") {
         Notification.requestPermission();
     } else {
-        var notification = new Notification(" \nLate Goal Expected - Check Game Stats", {
+        var notification = new Notification(" \nLate Goal Notice:  " + " " + league, {
             icon: '../smart-stats/images/lategoal.png',
             body: "Time: " + time + "\n" + home + " " + homeGoals + " : " + awayGoals + " " + away,
         });
