@@ -5,6 +5,9 @@ let statistics = document.getElementsByClassName("statistics");
 
 let notificationValues = document.getElementsByClassName("notification-values");
 
+let player_watch = document.getElementById("player-watch");
+
+player_watch.addEventListener("click", openPlayerWatch);
 
 for (let i = 0; i< linesups.length;i++ ) {
     let fixtureID = linesups[i].getAttribute('name');
@@ -41,6 +44,9 @@ for (let x = 0; x< statistics.length;x++ ) {
     });
 }
 
+function openPlayerWatch() {
+    window.open("player-watch.php", "popup", "width=900px, height=900px");
+}
 
 function openLineups(fixtureID, homeTeam, awayTeam) {
     window.open("lineups.php?id="+fixtureID+"&homeTeam="+homeTeam+"&awayTeam="+awayTeam, "popup", "width=700px, height=700px");
@@ -57,7 +63,7 @@ function notifyBrowser(home, away, homeGoals, awayGoals, time, league) {
     if (Notification.permission !== "granted") {
         Notification.requestPermission();
     } else {
-        var notification = new Notification(" \nLate Goal Notice:  " + " " + league, {
+        let notification = new Notification(" \nLate Goal Notice:  " + " " + league, {
             icon: '../smart-stats/images/lategoal.png',
             body: "Time: " + time + "\n" + home + " " + homeGoals + " : " + awayGoals + " " + away,
         });

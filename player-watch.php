@@ -6,7 +6,8 @@ include "classes/controller.php";
 
 ?>
 <head>
-  <meta http-equiv="refresh" content="300">
+  <meta http-equiv="refresh" content="60">
+  <script src="java.js"></script>
 </head>
 <?php
 
@@ -19,14 +20,26 @@ $live = $controller->getLiveGames(); // returns array of fixtures from api.
 
 $data = $controller->getPlayerWatchList($tackleCount, $foulCount); // returns player stats from database
 
-
-
-foreach ($live['response'] as $fixture) {
-    $id = $fixture['fixture']['id'];
-    $controller->updatePlayerStats($id);
-}
+databaseFixtureIDs($controller, $live);
 
 liveGames($live, $data);
+
+function databaseFixtureIDs(controller $controller, $live) {
+    $fixtureIDS = $controller->getAllFixtureIDS();
+
+    foreach ($fixtureIDS as $fixtureID) {
+        $id =  $fixtureID['fixtureID'];
+        compareFixtures($id, $controller, $live);
+    }
+}
+
+function compareFixtures($id, controller $controller, $live) {
+    foreach ($live['response'] as $fixture) {
+        if ($fixture['fixture']['id'] == $id) {
+            $controller->updatePlayerStats($id);
+        }
+    }
+}
 
 function liveGames($live, $data)
 { ?>

@@ -1,8 +1,12 @@
 <?php
-$_SESSION['league'] = "Serie A";
-$_SESSION['leagueID'] = 135;
+
+use smartstats\controller;
+
 require_once "vendor/autoload.php";
-include "database/api.php"
+//include "database/api.php"
+include "classes/controller.php";
+
+$controller = new controller();
 
 
 ?>
@@ -28,46 +32,64 @@ include "database/api.php"
     </div>
 
     <div class="userpage-main">
-        <div class="userpage-main-title">Premier League Statistics</div>
+        <div class="userpage-main-title">Serie A</div>
         <?php
-        $response = inplay($_SESSION['leagueID']); // calls function api in api-call file passing the session variable.
+        $response = $controller->getFixturesByLeagueID("all"); // calls function api in api-call file passing the session variable.;
         ?>
 
         <div class="table-wrapper">
             <table class="live-games-table">
                 <tr>
+                    <td>Time</td>
                     <td>Home</td>
                     <td>Score</td>
                     <td>Away</td>
-                    <td>Lineup</td>
+                    <td>League</td>
+                    <td>Lineups</td>
                     <td>Statistics</td>
                 </tr>
                 <?php
                 foreach ($response['response'] as $fixture) { ?>
                 <tr>
-                    <td><?php print_r($fixture['teams']['home']['name']); ?> </td>
-                    <td><?php print_r($fixture['goals']['home']); ?><?php echo ":"; print_r($fixture['goals']['away']) ?> </td>
-                    <td><?php print_r($fixture['teams']['away']['name']); ?> </td>
-                    <td><button>View</button></td>
-                    <td><button>View</button></td> <?php } ?>
+                    <?php
+                    if ($fixture['league']['name'] == "Serie A" and $country = $fixture['league']['country'] == "Italy") {
+                    $time = $fixture['fixture']['status']['elapsed'];
+                    $home_goals = $fixture['goals']['home'];
+                    $away_goals = $fixture['goals']['away'];
+                    $league = $fixture['league']['name'];
+                    $homeTeam = $fixture['teams']['home']['name'];
+                    $awayTeam = $fixture['teams']['away']['name'];
+                    $country = $fixture['league']['country']; ?>
+                    <td><?php echo $time . "'"; ?></td>
+                    <td><?php echo $homeTeam; ?> </td>
+                    <?php ?>
+
+                    <td><?php echo $home_goals; ?><?php echo ":" .
+                            $away_goals ?> </td>
+                    <td><?php echo $awayTeam; ?> </td>
+                    <?php $id = $fixture['fixture']['id']; ?>
+                    <td><?php echo $country;
+                        echo ": "; ?>
+                        <?php echo $league; ?></td>
+                    <td>
+                        <button class="lineups" homeTeam="<?php echo $homeTeam; ?>" awayTeam="<?php echo $awayTeam; ?>"
+                                name="<?php echo $id; ?>" homeGoals="<?php echo $home_goals; ?>"
+                                awayGoals="<?php echo $away_goals; ?>">View
+                        </button>
+                    </td>
+                    <td>
+                        <button class="statistics" home="<?php echo $homeTeam; ?>" away="<?php echo $awayTeam; ?>"
+                                name="<?php echo $id; ?>">View
+                        </button>
+                    </td>
+                    <div class="notification-values" homeTeam="<?php echo $homeTeam; ?>"
+                         awayTeam="<?php echo $awayTeam; ?>"
+                         name="<?php echo $id; ?>" homeGoals="<?php echo $home_goals; ?>"
+                         awayGoals="<?php echo $away_goals; ?>" time="<?php echo $time ?>" league="<?php echo $league ?>"></div>
+                    <?php }} ?>
+
                 </tr>
             </table>
-        </div>
-
-
-        <div class="widget" id="scoreaxis-widget-c3a7d"
-             style="border-width:1px;border-color:rgba(0, 0, 0, 0.15);border-style:solid;border-radius:8px;padding:0px;background:rgb(255, 255, 255);width:300px;height: 100%;">
-            <iframe id="Iframe"
-                    src="https://www.scoreaxis.com/widget/league-top-players/8?autoHeight=1&amp;playersNumber=15&amp;inst=c3a7d"
-                    style="width:100%;border:none;transition:all 300ms ease"></iframe>
-            <script>window.addEventListener("DOMContentLoaded", event => {
-                    window.addEventListener("message", event => {
-                        if (event.data.appHeight && "c3a7d" == event.data.inst) {
-                            let container = document.querySelector("#scoreaxis-widget-c3a7d iframe");
-                            container && (container.style.height = parseInt(event.data.appHeight) + "px")
-                        }
-                    }, !1)
-                });</script>
         </div>
     </div>
 </div>

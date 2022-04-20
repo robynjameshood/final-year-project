@@ -67,6 +67,52 @@ class select
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getFixtureIds()
+    {
+        global $connection;
+
+        $query = $connection->prepare("SELECT fixture.fixtureID FROM fixture");
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getStatsByTeamName($team)
+    {
+        global $connection;
+
+        $query = $connection->prepare("SELECT player.name, player.playerID, statistics.shotsOnTarget, statistics.tackles, statistics.fouls, player.position, team.teamName FROM player
+                                            INNER JOIN team ON team.teamID = player.teamID
+                                            INNER JOIN statistics ON player.playerID = statistics.playerID
+                                            INNER JOIN fixture ON fixture.fixtureID = team.fixtureID
+                                            where team.teamName = ?
+                                            ORDER BY shotsOnTarget desc ");
+        $query->bind_param("s", $team);
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+//    public function getStatsByFixtureID($fixtureID) {
+//        global $connection;
+//
+//        $query = $connection->prepare("SELECT player.name, statistics.shotsOnTarget, statistics.tackles, statistics.fouls, team.teamName FROM player
+//                                            INNER JOIN team ON team.teamID = player.teamID
+//                                            INNER JOIN statistics ON player.playerID = statistics.playerID
+//                                            INNER JOIN fixture ON fixture.fixtureID = team.fixtureID
+//                                            where fixture.fixtureID = ?");
+//        $query->bind_param("s", $fixtureID);
+//        $query->execute();
+//
+//        $result = $query->get_result();
+//
+//        return $result->fetch_all(MYSQLI_ASSOC);
+//    }
 }
 
 

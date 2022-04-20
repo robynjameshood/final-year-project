@@ -22,6 +22,8 @@ include "database/select.php";
             <a href="#" class="Serie A">Serie A</a>
             <a href="#" class="Bundesliga">Bundesliga</a>
             <a href="'" class="La Liga">La Liga</a>
+            <a href="stat-search.php" class="stat-search">Stat Search</a>
+            <div id="player-watch">Player-Watch</div>
         </div>
     </div>
 
@@ -29,5 +31,6 @@ include "database/select.php";
         <div class="userpage-main-title">Control Panel</div>
     </div>
 </div>
+<script src="java.js"></script>
 
 </body>

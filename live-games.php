@@ -27,6 +27,8 @@ include "database/api.php";
             <a href="serie-a.php" class="Serie A">Serie A</a>
             <a href="bundesliga.php" class="Bundesliga">Bundesliga</a>
             <a href="laliga.php" class="La Liga">La Liga</a>
+            <a href="stat-search.php" class="stat-search">Stat Search</a>
+            <div id="player-watch">Player-Watch</div>
         </div>
     </div>
 
@@ -89,10 +91,10 @@ include "database/api.php";
                 </tr>
             </table>
         </div>
-        <script src="java.js"></script>
+
     </div>
 </div>
-
+<script src="java.js"></script>
 </body>
 
 <?php

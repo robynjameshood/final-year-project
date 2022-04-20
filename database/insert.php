@@ -1,7 +1,5 @@
 <?php
 
-use smartstats\player;
-
 include "connection.php";
 
 class insert

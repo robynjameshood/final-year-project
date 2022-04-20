@@ -130,4 +130,20 @@ class controller
     function getPlayerWatchList($tackles, $fouls) {
         return $this->selectData->getPlayerWatchList($tackles, $fouls);
     }
+
+    function getAllFixtureIDS() {
+        return $this->selectData->getFixtureIds();
+    }
+
+    function getStatsByTeam($team) {
+        return $this->selectData->getStatsByTeamName($team);
+    }
+
+    function getPlayerStatsFromAPI($playerID) {
+        return $playerStats = inplay($playerID, "playerStats");
+    }
+
+    function getFixturesByLeagueID($leagueID) {
+        return $fixtures = inplay($leagueID, "all");
+    }
 }
