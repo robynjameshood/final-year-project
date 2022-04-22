@@ -146,4 +146,8 @@ class controller
     function getFixturesByLeagueID($leagueID) {
         return $fixtures = inplay($leagueID, "all");
     }
+
+    function resetDatabase() {
+        $this->selectData->databaseReset();
+    }
 }

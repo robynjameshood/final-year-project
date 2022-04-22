@@ -3,7 +3,6 @@
 use smartstats\controller;
 
 require_once "vendor/autoload.php";
-//include "database/api.php"
 include "classes/controller.php";
 
 $controller = new controller();
@@ -28,6 +27,8 @@ $controller = new controller();
             <a href="serie-a.php" class="Serie A">Serie A</a>
             <a href="bundesliga.php" class="Bundesliga">Bundesliga</a>
             <a href="laliga.php" class="La Liga">La Liga</a>
+            <a href="stat-search.php" class="stat-search">Stat Search</a>
+            <div id="player-watch">Player-Watch</div>
         </div>
     </div>
 
@@ -49,10 +50,11 @@ $controller = new controller();
                     <td>Statistics</td>
                 </tr>
                 <?php
-                foreach ($response['response'] as $fixture) { ?>
+                foreach ($response['response'] as $fixture) {
+                if ($fixture['league']['name'] == "Serie A" and $country = $fixture['league']['country'] == "Italy") {?>
                 <tr>
                     <?php
-                    if ($fixture['league']['name'] == "Serie A" and $country = $fixture['league']['country'] == "Italy") {
+
                     $time = $fixture['fixture']['status']['elapsed'];
                     $home_goals = $fixture['goals']['home'];
                     $away_goals = $fixture['goals']['away'];
@@ -93,5 +95,5 @@ $controller = new controller();
         </div>
     </div>
 </div>
-
+<script src="java.js"></script>
 </body>
